@@ -8,19 +8,36 @@ class FlashCardApp extends React.Component {
     this.state = {
       username: "",
       password: "",
+      errorMessage: "",
     };
+
+    // Temporary database to store user credentials
+    this.userDatabase = [
+      { username: "2211cs010064", password: "vishnu" },
+      { username: "2211cs010067", password: "sadvi" },
+      { username: "2211cs010258", password: "saikrishna" },
+    ];
   }
 
   handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, errorMessage: "" });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // Add your login logic here using this.state.username and this.state.password
-    // For example, you can send a request to a backend API for authentication
-    console.log("Login clicked!");
+
+    const { username, password } = this.state;
+
+    const user = this.userDatabase.find(
+      (user) => user.username === username && user.password === password
+    );
+
+    if (user) {
+      console.log("Login successful!");
+    } else {
+      this.setState({ errorMessage: "Invalid username or password" });
+    }
   };
 
   render() {
@@ -45,9 +62,14 @@ class FlashCardApp extends React.Component {
               onChange={this.handleInputChange}
               required
             />
-            <Link to="/Index" style={{ textDecoration: "none" }}>
-              <button>Login</button>
-            </Link>
+            <button type="submit">
+              <Link to="/Index" style={{ textDecoration: "none" }}>
+                Login
+              </Link>
+            </button>
+            {this.state.errorMessage && (
+              <p style={{ color: "red" }}>{this.state.errorMessage}</p>
+            )}
           </form>
         </div>
       </div>

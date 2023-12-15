@@ -77,6 +77,8 @@ function Index() {
             step="1"
             defaultValue={10}
             ref={amountEl}
+            minLength={1}
+            max={50}
           />
         </div>
         <div className="form-group">
